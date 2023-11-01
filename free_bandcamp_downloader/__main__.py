@@ -85,7 +85,7 @@ xpath = {
     'zipcode': '//input[@id="fan_email_postalcode"]',
     'preparing': '//span[@class="preparing-title"]',
     'formats': '//select[@id="format-type"]',
-    'download': '//a[@class="item-button"]',
+    'download': '//a[contains(@href, "https://")]',
     'albums': '//a[./p[@class="title"]]',
     'album-link': '//div[@class="download-artwork"]/a',
     'album-tags': '//div[contains(@class, "tralbum-tags-nu")]',
