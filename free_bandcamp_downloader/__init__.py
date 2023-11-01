@@ -6,7 +6,7 @@ from configparser import ConfigParser
 logging.basicConfig(level=os.environ.get('LOGLEVEL', 'INFO'))
 logger = logging.getLogger(__name__)
 
-__version__ = 'v0.0.69'
+__version__ = 'v0.0.555'
 
 if 'XDG_CONFIG_HOME' in os.environ:
     config_dir = os.path.join(
