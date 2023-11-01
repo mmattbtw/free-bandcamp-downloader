@@ -49,6 +49,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 from docopt import docopt
 from guerrillamail import GuerrillaMailSession
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
@@ -131,18 +132,18 @@ def init_downloaded():
 
 def download_file(driver, album_data=None):
     logger.info('On download page')
-    page_url = driver.find_element_by_xpath(
+    page_url = driver.find_element(By.XPATH,
         xpath['album-link']).get_attribute('href')
     page_url = urlsplit(page_url).geturl()
     if album_data is None:
         album_data = mail_album_data[page_url]
-    driver.find_element_by_xpath(xpath['formats']).click()
+    driver.find_element(By.XPATH, xpath['formats']).click()
     wait()
-    driver.find_element_by_xpath(
+    driver.find_element(By.XPATH,
         f'//*[text() = "{formats[options["format"]]}"]').click()
     logger.info(f'Set format to {formats[options["format"]]}')
     wait()
-    button = driver.find_element_by_xpath(xpath['download'])
+    button = driver.find_element(By.XPATH, xpath['download'])
     WebDriverWait(driver, 60).until(EC.visibility_of(button))
     url = button.get_attribute('href')
     response = urllib.request.urlopen(url)
@@ -229,21 +230,21 @@ def download_album(driver, url):
             'tags': None
         }
         try:
-            s = driver.find_element_by_xpath(
+            s = driver.find_element(By.XPATH,
                 xpath['album-about']).get_attribute('innerHTML')
             s = get_text(s)
             album_data['about'] = s
         except Exception as e:
             logger.info(f"Could not get album about - {e.__class__}: {e}")
         try:
-            s = driver.find_element_by_xpath(
+            s = driver.find_element(By.XPATH,
                 xpath['album-credits']).get_attribute('innerHTML')
             s = get_text(s)
             album_data['credits'] = s
         except Exception as e:
             logger.info(f"Could not get album credits - {e.__class__}: {e}")
         try:
-            s = driver.find_element_by_xpath(
+            s = driver.find_element(By.XPATH,
                 xpath['album-tags']).get_attribute('innerHTML')
             tags = {a.text for a in BeautifulSoup(
                 s, features='html.parser', parse_only=SoupStrainer('a'))}
@@ -253,7 +254,7 @@ def download_album(driver, url):
 
         logger.info(f"Album data: {album_data}")
 
-        button = driver.find_element_by_xpath(xpath['buy'])
+        button = driver.find_element(By.XPATH, xpath['buy'])
         if button.text == 'Free Download':
             logger.info(f'{url} is Free Download')
             button.click()
@@ -264,16 +265,16 @@ def download_album(driver, url):
             logger.info(f'{url} is not Free Download')
             button.click()
             wait()
-            price_input = driver.find_element_by_xpath(xpath['price'])
+            price_input = driver.find_element(By.XPATH, xpath['price'])
             price_input.click()
             price_input.send_keys('0')
             wait()
             try:
-                driver.find_element_by_xpath(xpath['download-nyp']).click()
+                driver.find_element(By.XPATH, xpath['download-nyp']).click()
             except:
                 logger.error(f'{url} is not free')
                 return f'{url} is not free'
-            checkout = driver.find_element_by_xpath(xpath['checkout'])
+            checkout = driver.find_element(By.XPATH, xpath['checkout'])
             if checkout.text == 'Download Now':
                 checkout.click()
                 wait()
@@ -282,13 +283,13 @@ def download_album(driver, url):
                 init_email()
                 logger.info(f'{url} requires email')
                 # fill out info
-                driver.find_element_by_xpath(
+                driver.find_element(By.XPATH, 
                     xpath['email']).send_keys(options['email'])
                 wait()
-                driver.find_element_by_xpath(
+                driver.find_element(By.XPATH,
                     xpath['zipcode']).send_keys(options['zipcode'])
                 wait()
-                Select(driver.find_element_by_xpath(
+                Select(driver.find_element(By.XPATH,
                     xpath['country'])).select_by_visible_text(options['country'])
                 wait()
                 checkout.click()
