@@ -118,8 +118,7 @@ def init_email():
 def get_driver():
     options = Options()
     options.add_argument('--headless')
-    driver = webdriver.Firefox(
-        firefox_options=options, service_log_path=os.devnull)
+    driver = webdriver.Firefox( options=options)
     driver.implicitly_wait(10)
     return driver
 

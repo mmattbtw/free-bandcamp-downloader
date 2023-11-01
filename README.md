@@ -1,6 +1,6 @@
 # free-bandcamp-downloader
 
-Download free and $0 minimum name-your-price albums and tracks from Bandcamp (including ones that are sent to email), 
+Download free and $0 minimum name-your-price albums and tracks from Bandcamp (including ones that are sent to email),
 and tags them with data from the Bandcamp page.
 
 ## Installation
@@ -10,8 +10,9 @@ Requires Firefox and [geckodriver](https://github.com/mozilla/geckodriver/releas
 Make sure geckodriver is in your PATH environment variable
 
 Install with pip
+
 ```
-pip install git+https://github.com/7x11x13/free-bandcamp-downloader
+pip install git+https://github.com/mmattbtw/free-bandcamp-downloader
 ```
 
 ## Usage
