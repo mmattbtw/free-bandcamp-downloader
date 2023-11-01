@@ -140,7 +140,7 @@ def download_file(driver, album_data=None):
     driver.find_element(By.XPATH, xpath['formats']).click()
     wait()
     driver.find_element(By.XPATH,
-        f'//*[text() = "{formats[options["format"]]}"]').click()
+        f'//option[@value="{formats[options["format"]]}"]').click()
     logger.info(f'Set format to {formats[options["format"]]}')
     wait()
     button = driver.find_element(By.XPATH, xpath['download'])
